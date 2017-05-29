@@ -11,8 +11,6 @@ from rest_framework import status
 from rest_framework.test import APIClient
 from rest_framework import views as drf_views
 
-from unittest.mock import patch
-
 from allauth.account import app_settings as account_app_settings
 from knox.models import AuthToken
 
