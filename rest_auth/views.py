@@ -235,6 +235,7 @@ class PasswordResetView(GenericAPIView):
         )
 
 
+# TODO: Expire knox sessions if configured?
 class PasswordResetConfirmView(GenericAPIView):
     """
     Password reset e-mail link is confirmed, therefore
@@ -260,6 +261,7 @@ class PasswordResetConfirmView(GenericAPIView):
         )
 
 
+# TODO: Expire knox sessions if configured?
 class PasswordChangeView(GenericAPIView):
     """
     Calls Django Auth SetPasswordForm save method.
