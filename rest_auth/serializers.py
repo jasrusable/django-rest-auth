@@ -114,7 +114,6 @@ class TokenSerializer(serializers.ModelSerializer):
     """
     Serializer for Token model.
     """
-
     class Meta:
         model = TokenModel
         fields = ('key',)
@@ -128,6 +127,14 @@ class UserDetailsSerializer(serializers.ModelSerializer):
         model = UserModel
         fields = ('pk', 'username', 'email', 'first_name', 'last_name')
         read_only_fields = ('email', )
+
+
+# Required to allow using custom USER_DETAILS_SERIALIZER  in
+# JWTSerializer. Defining it here to avoid circular imports
+rest_auth_serializers = getattr(settings, 'REST_AUTH_SERIALIZERS', {})
+CustomUserDetailsSerializer = import_callable(
+    rest_auth_serializers.get('USER_DETAILS_SERIALIZER', UserDetailsSerializer)
+)
 
 
 class JWTSerializer(serializers.Serializer):
@@ -148,6 +155,15 @@ class JWTSerializer(serializers.Serializer):
         )
         user_data = JWTUserDetailsSerializer(obj['user']).data
         return user_data
+    user = CustomUserDetailsSerializer()
+
+
+class KnoxSerializer(serializers.Serializer):
+    """
+    Serializer for Knox authentication.
+    """
+    token = serializers.CharField()
+    user = CustomUserDetailsSerializer()
 
 
 class PasswordResetSerializer(serializers.Serializer):
