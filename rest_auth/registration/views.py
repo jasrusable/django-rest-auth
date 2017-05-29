@@ -72,7 +72,7 @@ class RegisterView(CreateAPIView):
     def perform_create(self, serializer):
         user = serializer.save(self.request)
         if getattr(settings, 'REST_USE_JWT', False):
-            self.token = jwt_encode(user)  
+            self.token = jwt_encode(user)
         elif getattr(settings, 'REST_USE_KNOX', False):
             self.token = create_knox_token(user)
         else:
